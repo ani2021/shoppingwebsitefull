@@ -1,0 +1,148 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	@model Oasis.Models.Item
+}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="~/css/nav.css?v2">
+		<link rel="stylesheet" href="~/css/grid.css?v2">
+		<link rel="stylesheet" href="~/css/style.css?v8">
+		<link rel="stylesheet" href="~/css/graph.css?v6">
+		<script src="~/js/Chart.bundle.min.js"></script>
+		<title>Dashboard</title>
+	</head>
+	<body>
+		@{ await Html.RenderPartialAsync("_NavigationMenu"); }
+		<h1>Your Dashboard</h1>
+		<div id="wizard" class="popup-window">
+			<form id="itemwizard" class="popup-form" action="AddItems" onsubmit="return ValidateItemsWizard()" method="post">
+				<h3>Add Inventory</h3>
+				@Html.AntiForgeryToken()
+				@Html.LabelFor(m => m.Name, "Enter Name")
+				<input asp-for="Name" type="text" name="Name" required>
+				<br>
+				@Html.LabelFor(m => m.Category, "Enter Category")
+				<input asp-for="Category" type="text" name="Category" required>
+				<br>
+				@Html.LabelFor(m => m.Price, "Enter Price")
+				<input asp-for="Price" type="text" name="Price" required>
+				<br>
+				@Html.LabelFor(m => m.Quantity, "Enter the number of these items you want to sell")
+				<input asp-for="Quantity" type="text" name="Quantity" required>
+				<br>
+				<input type="submit" value="Send Items" />
+			</form>
+		</div>
+		<div id="graphwizard" class="popup-window">
+			<form id="graphsetup" name="graphsetup" class="popup-form" action="CreateGraph" method="post">
+				@Html.AntiForgeryToken()
+				<h3>Graph Setup</h3>
+				<label for="graphTitle">Graph Title</label>
+				<input type="text" id="graphTitle" name="graphTitle" required/>
+				<br />
+				<label for="itemOptions">Select Parameters</label>
+				<select id="itemOptions" name="itemOptions" required>
+					<option id="filler" selected>Select Item</option>
+					@foreach(var itemname in ViewBag.ItemNames)
+					{
+						<option onclick="SelectItem(this)" name="@itemname" value="@itemname">@itemname</option>
+					}
+				</select>
+				<div id="selectedItems" name="selectedItems"></div>
+				<input id="items" name="items" type="hidden" />
+				<fieldset>
+					<legend>Select a Parameter</legend>
+					<input id="option1" name="parameter" type="radio" value="Total Revenue" required/>
+					<label for="option1">Total Revenue</label>
+
+					<input id="option2" name="parameter" type="radio" value="Selling Frequency" />
+					<label for="option2">Selling Frequency</label>
+
+					<input id="option3" name="parameter" type="radio" value="Rating" />
+					<label for="option3">Rating</label>
+
+					<input id="option4" name="parameter" type="radio" value="Inventory" />
+					<label for="option4">Inventory</label>
+
+					<input id="option5" name="parameter" type="radio" value="Average Revenue" />
+					<label for="option5">Average Revenue</label>
+
+					<input id="option6" name="parameter" type="radio" value="Average Rating" />
+					<label for="option6">Average Rating</label>
+
+					<input id="option7" name="parameter" type="radio" value="Selling Frequency" />
+					<label for="option7">Selling Frequency</label>
+
+					<input id="option8" name="parameter" type="radio" value="Total Views" />
+					<label for="option8">Total Views</label>
+					<br />
+					<input id="option9" name="parameter" type="radio" value="Average Views" />
+					<label for="option9">Average Views</label>
+					<br />
+				</fieldset>
+				<fieldset>
+					<legend>Would you like to select a date range</legend>
+					<input id="yes" type="radio" name="decision" value="yes" onclick="DisplayGraphOptions(this)" required/>
+					<label for="yes">Yes</label>
+					<input id="no" type="radio" name="decision" value="no" onclick="DisplayGraphOptions(this)" />
+					<label for="no">No</label>
+				</fieldset>
+				<div id="dates">
+					<label id="daterange" for="range">Enter Range</label>
+					<p><input type="date" id="range" name="start"> to <input type="date" id="range2" name="end"></p>
+				</div>
+				<div id="graphType">
+					<label for="graphSelector">What kind of graph would you like to use?</label>
+					<select id="graphType" name="graphType" required>
+						<option name="bar" value="bar">Bar</option>
+						<option name="line" value="line">Line</option>
+						<option name="pie" value="pie">Pie</option>
+					</select>
+				</div>
+				<input type="submit" class="float-right" value="Create Graph" />
+			</form>
+		</div>
+		<div class="grid-setup">
+			<div class="grid-left-content">
+				<h4>Trends</h4>
+			</div>
+			<div class="grid-center-content border">
+				<h4>Data</h4>
+				@if(ViewBag.Items != null)
+				{
+					int c = 0;
+					foreach(var item in ViewBag.Items)
+					{
+						<form action="RemoveGraph" method="post">
+							<div class="graph-container">
+								@Html.AntiForgeryToken()
+								<canvas id="myChart-@c"></canvas>
+								<button type="submit" class="hidegraphbutton">Remove Graph</button>
+								<input id="graphName" name="graphName" type="hidden" value="@item.GraphName" />
+								<script src="~/js/graphs.js?v4"></script>
+								<script>DisplayGraphs(@Oasis.Services.JavaScriptConvertService.SerializeObject(item), "myChart-@c");</script>
+							</div>
+						</form>
+						c++;
+					}
+				}
+			</div>
+			<div class="grid-right-content">
+				<h4>Your Messages</h4>
+			</div>
+		</div>
+		<nav id="bottomnav">
+			<button id="additems" class="float-right bottom-nav-buttons" onclick="PopupToggle('wizard');HideForm('optionswizard', 'optionssetup');HideForm('graphwizard', 'graphsetup')">Add Items to Sell</button>
+			<button id="options" class="float-left bottom-nav-buttons" onclick="PopupToggle('optionswizard');HideForm('wizard', 'itemwizard');HideForm('graphwizard', 'graphsetup')">Options</button>
+			<button id="addgraph" class="float-left bottom-nav-buttons" onclick="PopupToggle('graphwizard');HideForm('optionswizard', 'optionssetup');HideForm('wizard', 'itemwizard')">Add Graph</button>
+		</nav>
+		<script src="~/js/modifyui.js?v7"></script>
+		<script src="~/js/validation.js?v2"></script>
+	</body>
+</html>

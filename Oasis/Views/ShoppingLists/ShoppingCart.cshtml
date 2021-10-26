@@ -1,0 +1,45 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="~/css/nav.css?v2">
+		<link rel="stylesheet" href="~/css/grid.css?v3">
+		<link rel="stylesheet" href="~/css/style.css?v9">
+		<link rel="stylesheet" href="~/css/graph.css?v6">
+		<script src="~/js/Chart.bundle.min.js"></script>
+		<title>Shopping Cart</title>
+	</head>
+	<body>
+		@{ await Html.RenderPartialAsync("_NavigationMenu"); }
+		@if(ViewBag.Cart != null)
+		{
+			<div class="grid-container-shopping-cart">
+				<h1 class="grid-item">Shopping Cart</h1>
+				<br>
+				<br>
+				@foreach(var item in ViewBag.Cart)
+				{
+					<div class="grid-item grid-product-container">
+						<img class="item-img" src="@item.Image" alt="">
+						<p class="grid-product-description">@item.ItemDescription</p>
+						@{ double subTotal = item.Quantity * item.Price; }
+						<p class="grid-product-price"><span class="spacing" style="--space: 10px;">Qty: @item.Quantity</span>$@subTotal<span class="delete">&#10006</span></p>
+						<p class="grid-product-price">Save for Later</p>
+					</div>
+					<br>
+					<p class="item-separator"></p>
+				}
+				<div class="grid-item purchase">
+					<p>$700</p>
+					<button type="submit">Checkout</button>
+				</div>
+			</div>
+		}
+	</body>
+</html>

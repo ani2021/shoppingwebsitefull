@@ -1,0 +1,54 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	@model Oasis.Models.User
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Register</title>
+	<link rel="stylesheet" href="~/css/nav.css">
+	<link rel="stylesheet" href="~/css/grid.css">
+	<link rel="stylesheet" href="~/css/style.css">
+	<link rel="stylesheet" href="~/css/graph.css">
+</head>
+<body>
+	@{ await Html.RenderPartialAsync("_NavigationMenu"); }
+	<div class="container">
+		<div class="center">
+			<form class="form" asp-controller="SignUp" action="SignUp" onsubmit="return ValidateFields()" method="post">
+				<h4>Account Registration</h4>
+				@Html.AntiForgeryToken()
+				<label class="formitem" asp-for="Username">Enter Username</label>
+				@Html.EditorFor(m => m.UserName)
+				<br />
+				<label class="formitem" for="email">Enter Email</label>
+				<input id="email" type="text" required>
+				<br />
+				@Html.LabelFor(m => m.Email, "Reenter Email")
+				<input asp-for="Email" id="reemail" type="email" name="Email" required>
+				<br />
+				<!--label asp-for="Password">Enter Password</label> -->
+				@Html.LabelFor(m => m.PasswordHash, "Enter Password")
+				<input asp-for="PasswordHash" id="password" type="password" name="PasswordHash" required>
+				<br />
+				<label for="repassword">Reenter Password</label>
+				<input id="repassword" type="password" required>
+				<br />
+				@Html.LabelFor(m => m.Role, "Select your Role")
+				<select id="roles" asp-for="Role" type="password" name="Role">
+					@foreach(var role in ViewBag.Roles)
+					{
+						<option value="@role">@role.Name</option>
+					}
+				</select>
+				<input type="submit" value="Register" class="submit" />
+			</form>
+		</div>
+	</div>
+	<script src="~/js/validation.js"></script>
+</body>
+</html>

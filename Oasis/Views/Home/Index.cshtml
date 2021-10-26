@@ -1,0 +1,83 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	@model Oasis.Models.ShoppingList
+}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="~/css/nav.css">
+    <link rel="stylesheet" href="~/css/grid.css">
+    <link rel="stylesheet" href="~/css/style.css?v2">
+		<title>Web Store</title>
+	</head>
+	<body onkeydown="ResetSessionTimeout('@User.Identity.IsAuthenticated.ToString().ToLower()')" onmousemove="ResetSessionTimeout('@User.Identity.IsAuthenticated.ToString().ToLower()')">
+		@{ await Html.RenderPartialAsync("_NavigationMenu"); }
+		<h3 class="pagebanner">Welcome to Oasis the home of the free marketplace</h3>
+		<p>Popular Items</p>
+		<div id="enterlist" class="popup-window popup-form">
+			<form id="itemwizard" action="CreateList" onsubmit="return ValidateItemsWizard()" method="post">
+				@Html.LabelFor(sl => sl.ListName, "Enter Name of List")
+				<input asp-for="ListName" id="ListName" name="ListName" type="text">
+				<br>
+				<br>
+				<button onclick="PopupToggle('enterlist')" class="float-left">Cancel</button>
+				<input class="float-right" type="submit" value="Create List" />
+			</form>
+		</div>
+		@if(ViewBag.ForSale != null)
+		{
+			<div class="grid-setup">
+				<div class="grid-center-content">
+					@foreach(var item in ViewBag.ForSale)
+					{
+						<form class="box" method="post" action="ItemDetails">
+							@Html.AntiForgeryToken()
+							<div>
+								<img src="@item.ItemImage" alt="@item.Name">
+								<p class="description">@item.Description</p>
+							</div>
+							<div>
+								<p class="price">$@item.Price<span>Rating: @item.AverageRating</span></p>
+							</div>
+							<p class="category">Tech</p>
+							<div>
+								<select id="userlists">
+									<option value="NewList">Select List</option>
+									@if(ViewBag.ListItems != null)
+									{
+										try
+										{
+											@foreach(var lst in ViewBag.ListItems)
+											{
+												<option onclick="AddToList('@lst.ListName', '@item.Name')" value="@lst.ListName">@lst.ListName</option>
+											}
+										}
+										catch(Exception) { }
+									}
+									<option onclick="PopupToggle('enterlist')" value="NewList">Create New List</option>
+								</select>
+								<button class="float-left" type="submit" value="View Item">View Item</button>
+								<button>Add to Cart</button>
+								<input name="item" type="hidden" value="@item.Name" />
+							</div>
+						</form>
+					}
+				</div>
+			</div>
+		}
+		<script src="~/js/validation.js?v4"></script>
+		<script src="~/js/modifyui.js?v2"></script>
+		<script src="~/js/datamanagement.js?v7"></script>
+		@if(User.Identity.IsAuthenticated)
+		{
+			<script>
+				SetSessionTimeout();
+			</script>
+		}
+	</body>
+</html>

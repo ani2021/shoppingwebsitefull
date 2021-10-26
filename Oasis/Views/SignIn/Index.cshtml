@@ -1,0 +1,38 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+	@model Oasis.Models.User
+}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Signin</title>
+		<link rel="stylesheet" href="~/css/nav.css?v2">
+		<link rel="stylesheet" href="~/css/grid.css?v2">
+		<link rel="stylesheet" href="~/css/style.css?v6">
+	</head>
+	<body>
+		@{ await Html.RenderPartialAsync("_NavigationMenu"); }
+		<div class="container">
+			<div class="center">
+				<h3>Sign In</h3>
+				<form class="form" asp-controller="SignIn" action="SignIn" name="registration" onsubmit="return ValidateSignIn()" method="post">
+					@Html.AntiForgeryToken()
+					@Html.LabelFor(m => m.Email, "Email")
+					<input class="email" type="email" name="Email" asp-for="Email" required />
+					<br />
+					@Html.LabelFor(m => m.PasswordHash, "Password")
+					<input asp-for="PasswordHash" id="PasswordHash" type="password" name="PasswordHash" required>
+					<br />
+					<input id="register" type="button" onclick="location.href='@Url.Action("Index", "SignUp")'" value="Register" />
+					<input type="submit" value="Sign In" class="submit" />
+				</form>
+			</div>
+		</div>
+		<script src="~/js/validation.js"></script>
+	</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "publishOptions": {
+    "include": [
+      "Views",
+      "web.config"
+    ]
+  }
+}

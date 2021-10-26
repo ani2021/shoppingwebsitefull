@@ -1,0 +1,12 @@
+To: seller@email.com
+Subject: Confirmation
+Message: Click <a href="https://localhost:44399/Account/VerifyEmail/1c696668-f73a-452e-8037-1f92c011de7d?token=CfDJ8NoXRGZ%2FNShFp2OBDWBFVgAQfEqQo7Mqg%2BfxUL2IHp3D06fUaTPn4Jx1tQ7Dfd7Ive46uBqMOt4R7GSjMsOJPVfGHrxtnp8ckCnruAkRf7197yVwdr%2FB5tZGGcHPgLK7M6gkbxaxAQFYjpljiWBtpxc630V8rKPah603CtrRiA8SCmIpV5L4B5a%2BF0D%2BW6ptm3IV9H9f5VzXeOE1TRDMt0FwpUOBeAhSQjJAig9jq%2B%2FIzA148znHloEAKUSG3j%2BFvA%3D%3D">here</a> to verify your email
+
+To: buyer@email.com
+Subject: Confirmation
+Message: Click <a href="https://localhost:44399/Account/VerifyEmail/593a96bd-4762-47d0-89d0-c6341645012e?token=CfDJ8B1QdF%2BBRKtHp0LO68syrc3TMEM3Fv79uLisQUuoRYs2M1bdf1wbBv4R2XZB0Dyl6EBWGp9j%2Bg7CeiZouPBAJYytk0NnHyZxvgd%2BE9YMxFNnyZuuBd9N15B9Wd2DwvTv61rBfXOdf0HpRyrVTgtzMFYFXQ%2BP4Oh4%2FgitYsRU%2FsB6iH%2BQzKM3DuqvKmbnAtPOKdUuwQRDd4ZQNvA7GnJN3MzTCQoy%2Bw8nTOQn%2FLcW%2FmieIpYF7QABxNfqbKQk2FpFuQ%3D%3D">here</a> to verify your email
+
+To: ani@email.com
+Subject: Confirmation
+Message: Click <a href="https://localhost:44399/Account/VerifyEmail/9558f467-693d-4fd1-a5f5-d2b4485cc3ec?token=CfDJ8B1QdF%2BBRKtHp0LO68syrc0NxWaQlUBXBk5YXoBJjM0850xFucwcrrvnua2ah%2BNp%2F0cmHKpDQ0nJQbxYLScNz4%2BpwCVL3Ce3j4GDyju%2FKNi9UgbnMnRRmse%2BmcRbh%2FR%2Fr09laMzgAX%2Bm5YieD1L5OUN66Sw465vh49pbWY0Mt3jOXvj%2Ffn%2B428Qk3EY5WGRPy3fUj8vFbZ9hWcj3pdToW2sMx62Y0hVT5bz7ca90S9YH5%2Fy%2BXU%2FBh0FUat6XijWPoQ%3D%3D">here</a> to verify your email
+

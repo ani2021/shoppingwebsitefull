@@ -1,0 +1,33 @@
+.chart-container 
+{
+  margin-top: 10px;
+  float: left;
+  position: relative;
+  height: 30vh;
+  width: 30vw;
+}
+
+.chart-container-2
+{
+  position: relative;
+  margin: auto;
+  height: 20vh;
+  width: 20vw;
+}
+
+.chart-container-3
+{
+  top: 250px;
+  position: relative;
+  height: 20vh;
+  width: 20vw;
+}
+
+.chart-container-4
+{
+  position: relative;
+  flex-shrink: 0;
+  margin: auto;
+  height: 20vh;
+  width: 20vw;
+}

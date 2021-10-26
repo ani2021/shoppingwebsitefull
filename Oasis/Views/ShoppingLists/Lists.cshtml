@@ -1,0 +1,88 @@
+﻿@*
+	For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="~/css/nav.css">
+    <link rel="stylesheet" href="~/css/grid.css?v3">
+    <link rel="stylesheet" href="~/css/style.css?v4">
+		<title>Web Store</title>
+	</head>
+	<body>
+		@{ await Html.RenderPartialAsync("_NavigationMenu"); }
+		<h1>Your Shopping Lists!</h1>
+		<div class="shopping-lists-border">
+			@if(ViewBag.ListItems != null)
+			{
+				<div class="shopping-list-grid">
+					<div class="list-names">
+						<form method="post" action="RetrieveList">
+							@foreach(var item in ViewBag.ListItems)
+							{
+								<button name="listname" onclick="Selected(this)" type="submit">@item.ListName</button>
+								@*<a name="list" onclick="Selected(this)">@item.ListName</a>*@
+							}
+						</form>
+					</div>
+
+					<div class="list-contents">
+						<div class="grid-container-shopping-cart">
+							<br>
+							<br>
+							@*@foreach(var item in ViewBag.Items)
+							{
+								<div class="grid-item grid-product-container">
+									<img class="item-img" src="img/xbox.jpg" alt="">
+									<p class="grid-product-description">
+										This is an amazing xbox!
+									</p>
+									<p class="grid-product-price">$350<span class="delete">&#10006</span></p>
+								</div>
+								<br>
+								<p class="item-separator"></p>
+							}*@
+						</div>
+					</div>
+				</div>
+			}
+		</div>
+
+		@*<div class="grid-setup">
+			<div class="grid-center-content">
+				<div class="shopping-list-grid-setup">
+					<div class="grid-left-content">
+						@if(ViewBag.ListItems != null)
+						{
+							@foreach(var list in ViewBag.ListItems)
+							{
+								<form action="RetrieveList" method="post">
+									<input id="@list.ListName" name="listname" type="submit" value="@list.ListName" />
+								</form>
+							}
+						}
+					</div>
+					<div class="grid-center-content">
+						@if(ViewBag.Items != null)
+						{
+							@foreach(var item in ViewBag.Items)
+							{
+								@if(item.ItemName != null)
+								{
+									<p>@item.ItemName</p>
+								}
+							}
+						}
+					</div>
+				</div>
+			</div>
+		</div>*@
+		<script src="~/js/datamanagement.js"></script>
+		<script src="~/js/modifyui.js?v2"></script>
+	</body>
+</html>

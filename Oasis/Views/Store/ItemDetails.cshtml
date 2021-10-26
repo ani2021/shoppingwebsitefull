@@ -1,0 +1,150 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/grid.css">
+    <link rel="stylesheet" href="css/style.css">
+		<title>Item Details</title>
+	</head>
+	<body onkeydown="ResetSessionTimeout('@User.Identity.IsAuthenticated.ToString().ToLower()')" onmousemove="ResetSessionTimeout('@User.Identity.IsAuthenticated.ToString().ToLower()')">
+		@{ await Html.RenderPartialAsync("_NavigationMenu"); }
+		<h3 class="pagebanner">Item Details Page</h3>
+		<div class="grid-setup-detail-page page-background-color">
+			<div class="grid-left-content border-right">
+				<h3 class="item-name">Related Items</h3>
+				<div onclick="SelectItem()" class="side-bar-box">
+					<p class="item-name">Xbox 360</p>
+					<img src="img/xbox360.jpg" alt="">
+					<p class="description">
+						Best Gaming System of the 2000s!
+					</p>
+					<p>Rating: 9.8</p>
+				</div>
+			</div>
+			<div class="grid-center-content">
+				@if(ViewBag.Item != null)
+				{
+					@foreach(var item in ViewBag.Item)
+					{
+						<h2 class="item-name">@item.Name</h2>
+						<div class="purchase-box">
+							<form action="Purchase" method="post">
+								@Html.AntiForgeryToken()
+								<h3>Price: <span>$@item.Price</span></h3>
+								@if(ViewBag.Count != null)
+								{
+									if(ViewBag.Count > 0)
+									{
+										<p><span>In Stock</span></p>
+										<p>
+											Quantity to Purchase:
+											<select name="quantity" id="quantity">
+												@for(int c = 1; c < ViewBag.Count + 1; c++)
+												{
+													<option onclick="localStorage.setItem('quantity', '@c');" name="numItems" value="@c">@c</option>
+												}
+											</select>
+										</p>
+										<input name="item" type="hidden" value="@item.Name" />
+										<button type="submit" class="purchase-button">Buy Now</button>
+										<br>
+									}
+									else
+									{
+										<p><span>Out of Stock</span></p>
+									}
+								}
+							</form>
+							<form action="AddToCart" method="post">
+								@Html.AntiForgeryToken()
+								<input id="qty" name="qty" value="1" type="hidden" />
+								<input id="itm" name="itm" value="@item.Name" type="hidden" />
+								<button onclick="GetQuantity()" type="submit" class="purchase-button">Cart Item</button>
+							</form>
+							@if(ViewBag.ShoppingLists != null)
+							{
+								<p>
+									Add To List:
+									<select class="list" name="" id="shoppinglists">
+										<option value="Select List">Select List</option>
+										@foreach(var lst in ViewBag.ShoppingLists)
+										{
+											<option value="@lst.ListName">@lst.ListName</option>
+										}
+										<option value="New List">New List</option>
+									</select>
+								</p>
+							}
+						</div>
+						<img class="details-img" src="@item.ItemImage" alt="xbox">
+						<p>
+							@item.Description
+							@*Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+							incididunt ut labore et dolore magna aliqua.
+							Fusce id velit ut tortor pretium viverra suspendisse.
+							Eu feugiat pretium nibh ipsum consequat.
+							Sit amet tellus cras adipiscing enim eu turpis egestas.
+							Aliquet eget sit amet tellus cras adipiscing enim eu turpis.*@
+						</p>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<div>
+							<h3>Product Details</h3>
+							<p>
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+								incididunt ut labore et dolore magna aliqua.
+								Fusce id velit ut tortor pretium viverra suspendisse.
+								Eu feugiat pretium nibh ipsum consequat.
+								Sit amet tellus cras adipiscing enim eu turpis egestas.
+								Aliquet eget sit amet tellus cras adipiscing enim eu turpis.
+							</p>
+						</div>
+					}
+					@if(User.Identity.IsAuthenticated)
+					{
+						@if(ViewBag.Item != null)
+						{
+							@foreach(var item in ViewBag.Item)
+							{
+								<form id="userReview" action="SubmitReview" method="post">
+									@Html.AntiForgeryToken()
+									<textarea id="review" name="review" required></textarea>
+									<br />
+									<input type="submit" value="Submit Review" />
+									<input name="item" type="hidden" value="@item.Name" />
+								</form>
+							}
+						}
+					}
+					@if(ViewBag.Reviews != null)
+					{
+						<h4>Product Reviews</h4>
+						foreach(var review in ViewBag.Reviews)
+						{
+							<label>User: <span>@review.ReviewerEmail</span></label>
+							<br />
+							<label>&emsp; Review: <span>@review.ReviewMessage</span></label>
+							<br />
+						}
+					}
+				}
+			</div>
+		</div>
+		<script src="~/js/modifyui.js?v7"></script>
+		<script src="~/js/validation.js?v2"></script>
+		<script src="~/js/datamanagement.js?v2"></script>
+	</body>
+</html>
